@@ -104,4 +104,4 @@ jobs:
       uses: actions/upload-artifact@v4.6.2
       with:
         name: ${{ runner.os }}-${{ matrix.build_type }}-${{ matrix.ui }}-${{ matrix.scripting }}
-        path: $PWD/build/bin
+        path: build/bin
