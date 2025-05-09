@@ -10,6 +10,10 @@ jobs:
         build_type: [Release, RelWithDebInfo, Debug]
         ui: [gui, cli]
         scripting: [lua, noscripts]
+        exclude:
+          - os: windows-latest
+            build_type: Debug
+            ui: gui
     steps:
     - uses: actions/checkout@v4
       with:
@@ -37,7 +41,6 @@ jobs:
         unzip "$skia_file" -d skia
     - name: ccache
       uses: hendrikmuhs/ccache-action@v1.2.17
-      if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
       with:
         key: ${{ matrix.os }}-${{ matrix.ui }}-${{ matrix.scripting }}-${{ matrix.build_type }}
     - uses: aseprite/get-ninja@main
@@ -46,11 +49,7 @@ jobs:
     - name: Generating Makefiles
       shell: bash
       run: |
-        if [[ "${{ runner.os }}" == "Windows" ]] ; then
-          export enable_ccache=off
-        else
-          export enable_ccache=on
-        fi
+        export enable_ccache=on
 
         if [[ "${{ matrix.ui }}" == "gui" ]] ; then
           export laf_backend=skia
@@ -100,8 +99,18 @@ jobs:
         export ASEPRITE=$PWD/build/bin/aseprite
         cd tests
         $XVFB bash run-tests.sh
+    - name: Package
+      shell: bash
+      run: |
+        mkdir out
+        if [[ "${{ runner.os }}" == "Windows" ]] ; then
+          mv $PWD/build/bin/aseprite.exe $PWD/build/bin/data out
+          touch out/aseprite.ini
+        else
+          mv $PWD/build/bin/aseprite $PWD/build/bin/data out
+        fi
     - name: Upload build
       uses: actions/upload-artifact@v4.6.2
       with:
         name: ${{ runner.os }}-${{ matrix.build_type }}-${{ matrix.ui }}-${{ matrix.scripting }}
-        path: build/bin
+        path: out
