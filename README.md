@@ -1,5 +1,7 @@
 # Aseprite
 
+# I highly recommend purchasing Aseprite! It is well worth the price, however I understand some people may want to use it without paying. If you can pay, please do. It's a great project, and I don't think it can be continued well if everyone just gets it for free. Thank you for reading, and go place pixels!
+
 [![build](https://github.com/aseprite/aseprite/actions/workflows/build.yml/badge.svg)](https://github.com/aseprite/aseprite/actions/workflows/build.yml)
 [![Translation Status](https://hosted.weblate.org/widget/aseprite/aseprite/svg-badge.svg)](https://hosted.weblate.org/engage/aseprite/)
 [![Discourse Community](https://img.shields.io/badge/discourse-community-brightgreen.svg?style=flat)](https://community.aseprite.org/)
